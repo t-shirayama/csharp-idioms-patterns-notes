@@ -1,0 +1,139 @@
+site_name: C# Idioms & Practical Patterns Notes
+site_description: 実務で役立つ C# のイディオム、定石、設計パターン、落とし穴をまとめる日本語ノート
+site_url: https://t-shirayama.github.io/csharp-idioms-patterns-notes/
+repo_url: https://github.com/t-shirayama/csharp-idioms-patterns-notes
+repo_name: t-shirayama/csharp-idioms-patterns-notes
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search:
+      lang: ja
+
+nav:
+  - Home: index.md
+  - Part 1 現代 C# の基礎体力:
+      - 概要: part-01-modern-csharp-basics/README.md
+      - レビュー観点: part-01-modern-csharp-basics/checklist.md
+      - C# と .NET の全体像: part-01-modern-csharp-basics/csharp-と-dotnet-の全体像.md
+      - 型、値型、参照型、nullable reference types: part-01-modern-csharp-basics/型-値型-参照型-nullable-reference-types.md
+      - class / struct / record / record struct: part-01-modern-csharp-basics/class-struct-record-record-struct.md
+      - property、init、required、readonly: part-01-modern-csharp-basics/property-init-required-readonly.md
+      - namespace、using、file-scoped namespace: part-01-modern-csharp-basics/namespace-using-file-scoped-namespace.md
+      - exception、using、IDisposable、リソース管理: part-01-modern-csharp-basics/exception-using-idisposable-リソース管理.md
+  - Part 2 基本文法の実務イディオム:
+      - 概要: part-02-basic-idioms/README.md
+      - レビュー観点: part-02-basic-idioms/checklist.md
+      - 初期化、代入、ガード節: part-02-basic-idioms/初期化-代入-ガード節.md
+      - if / switch / pattern matching: part-02-basic-idioms/if-switch-pattern-matching.md
+      - null 処理: part-02-basic-idioms/null-処理.md
+      - enum、flags enum、代替設計: part-02-basic-idioms/enum-flags-enum-代替設計.md
+      - range、index、tuple、deconstruction、匿名型: part-02-basic-idioms/range-index-tuple-deconstruction-匿名型.md
+  - Part 3 コレクションと LINQ:
+      - 概要: part-03-collections-linq/README.md
+      - レビュー観点: part-03-collections-linq/checklist.md
+      - array、List、Dictionary、HashSet: part-03-collections-linq/array-list-dictionary-hashset.md
+      - IEnumerable / ICollection / IReadOnlyCollection / IReadOnlyList の使い分け: part-03-collections-linq/ienumerable-icollection-ireadonlycollection-の使い分け.md
+      - LINQ の基本、遅延評価、即時評価: part-03-collections-linq/linq-の基本-遅延評価-即時評価.md
+      - LINQ を使いこなす: part-03-collections-linq/linq-を使いこなす.md
+      - LINQ で避けたい書き方とパフォーマンス: part-03-collections-linq/linq-で避けたい書き方とパフォーマンス.md
+  - Part 4 文字列・日付・ファイル・データ形式:
+      - 概要: part-04-strings-dates-files-data/README.md
+      - レビュー観点: part-04-strings-dates-files-data/checklist.md
+      - string 比較、検索、分割、補間: part-04-strings-dates-files-data/string-比較-検索-分割-補間.md
+      - StringBuilder、Span / Memory の入口: part-04-strings-dates-files-data/stringbuilder-span-memory-の入口.md
+      - DateTime、DateOnly、TimeOnly、DateTimeOffset: part-04-strings-dates-files-data/datetime-dateonly-timeonly-datetimeoffset.md
+      - タイムゾーンと UTC: part-04-strings-dates-files-data/タイムゾーンと-utc.md
+      - file / path / directory 操作: part-04-strings-dates-files-data/file-path-directory-操作.md
+      - JSON serialization と System.Text.Json: part-04-strings-dates-files-data/json-serialization-と-system-text-json.md
+      - 正規表現と GeneratedRegex: part-04-strings-dates-files-data/正規表現と-generatedregex.md
+  - Part 5 オブジェクト指向と設計パターン:
+      - 概要: part-05-oop-patterns/README.md
+      - レビュー観点: part-05-oop-patterns/checklist.md
+      - カプセル化、継承、ポリモーフィズム: part-05-oop-patterns/カプセル化-継承-ポリモーフィズム.md
+      - interface と abstract class の使い分け: part-05-oop-patterns/interface-と-abstract-class-の使い分け.md
+      - Template Method、Strategy、Factory: part-05-oop-patterns/template-method-strategy-factory.md
+      - Dependency Injection: part-05-oop-patterns/dependency-injection.md
+      - Value Object、Entity、DTO: part-05-oop-patterns/value-object-entity-dto.md
+      - SOLID 原則を C# コードで読む: part-05-oop-patterns/solid-原則を-csharp-コードで読む.md
+  - Part 6 非同期・並列・外部 I/O:
+      - 概要: part-06-async-parallel-io/README.md
+      - レビュー観点: part-06-async-parallel-io/checklist.md
+      - async / await の基本: part-06-async-parallel-io/async-await-の基本.md
+      - Task、ValueTask、CancellationToken: part-06-async-parallel-io/task-valuetask-cancellationtoken.md
+      - ConfigureAwait の現代的な扱い: part-06-async-parallel-io/configureawait-の現代的な扱い.md
+      - HttpClient の定石: part-06-async-parallel-io/httpclient-の定石.md
+      - 並列処理、Parallel、PLINQ、Channel: part-06-async-parallel-io/並列処理-parallel-plinq-channel.md
+      - タイムアウト、リトライ、キャンセル設計: part-06-async-parallel-io/タイムアウト-リトライ-キャンセル設計.md
+  - Part 7 実務アプリケーションの定石:
+      - 概要: part-07-application-practices/README.md
+      - レビュー観点: part-07-application-practices/checklist.md
+      - 設定と Options pattern: part-07-application-practices/設定と-options-pattern.md
+      - ログと構造化ログ: part-07-application-practices/ログと構造化ログ.md
+      - 入力検証 (Validation): part-07-application-practices/validation.md
+      - エラー処理と例外設計: part-07-application-practices/エラー処理と例外設計.md
+      - Repository / Service / UseCase 分離: part-07-application-practices/repository-service-usecase-分離.md
+      - Web API での DTO、境界、マッピング: part-07-application-practices/web-api-での-dto-境界-マッピング.md
+      - DB アクセス時の注意点: part-07-application-practices/db-アクセス時の注意点.md
+  - Part 8 テストしやすい C#:
+      - 概要: part-08-testable-csharp/README.md
+      - レビュー観点: part-08-testable-csharp/checklist.md
+      - 単体テストしやすい設計: part-08-testable-csharp/単体テストしやすい設計.md
+      - xUnit / NUnit / MSTest の観点: part-08-testable-csharp/xunit-nunit-mstest-の観点.md
+      - mock / stub / fake の使い分け: part-08-testable-csharp/mock-stub-fake-の使い分け.md
+      - 時刻、乱数、外部 I/O の分離: part-08-testable-csharp/時刻-乱数-外部-i-o-の分離.md
+      - テストデータビルダー: part-08-testable-csharp/テストデータビルダー.md
+      - 例外・非同期・境界値のテスト: part-08-testable-csharp/例外・非同期・境界値のテスト.md
+  - Part 9 スタイル、レビュー、保守性:
+      - 概要: part-09-style-review-maintainability/README.md
+      - レビュー観点: part-09-style-review-maintainability/checklist.md
+      - 命名規則: part-09-style-review-maintainability/命名規則.md
+      - コメントと XML documentation: part-09-style-review-maintainability/コメントと-xml-documentation.md
+      - メソッド分割、責務分割: part-09-style-review-maintainability/メソッド分割-責務分割.md
+      - 読みやすい条件式: part-09-style-review-maintainability/読みやすい条件式.md
+      - コードレビュー観点: part-09-style-review-maintainability/コードレビュー観点.md
+      - analyzer、EditorConfig、nullable 警告との付き合い方: part-09-style-review-maintainability/analyzer-editorconfig-nullable-警告との付き合い方.md
+  - Part 10 パフォーマンスと落とし穴:
+      - 概要: part-10-performance-pitfalls/README.md
+      - レビュー観点: part-10-performance-pitfalls/checklist.md
+      - allocation を意識する場面: part-10-performance-pitfalls/allocation-を意識する場面.md
+      - boxing / unboxing: part-10-performance-pitfalls/boxing-unboxing.md
+      - LINQ の過剰使用: part-10-performance-pitfalls/linq-の過剰使用.md
+      - 文字列処理のコスト: part-10-performance-pitfalls/文字列処理のコスト.md
+      - async の落とし穴: part-10-performance-pitfalls/async-の落とし穴.md
+      - 例外を制御フローに使わない: part-10-performance-pitfalls/例外を制御フローに使わない.md
+      - BenchmarkDotNet の入口: part-10-performance-pitfalls/benchmarkdotnet-の入口.md
+  - Appendix:
+      - 概要: appendix/README.md
+      - レビュー観点: appendix/checklist.md
+      - プロセス起動: appendix/プロセス起動.md
+      - 環境変数: appendix/環境変数.md
+      - バージョン情報: appendix/バージョン情報.md
+      - ZIP 操作: appendix/zip-操作.md
+      - reflection: appendix/reflection.md
+      - source generator の入口: appendix/source-generator-の入口.md
+      - unsafe / native interop の入口: appendix/unsafe-native-interop-の入口.md

@@ -20,7 +20,8 @@
 
 ## 読み方
 
-- 全体像から探す: [docs/README.md](docs/README.md)
+- 公開サイトで読む: <https://t-shirayama.github.io/csharp-idioms-patterns-notes/>
+- 全体像から探す: [docs/index.md](docs/index.md)
 - すぐレビューに使う: 各 Part の `checklist.md`
 - 個別トピックを深掘りする: 各 Part フォルダ内の項目別 Markdown
 

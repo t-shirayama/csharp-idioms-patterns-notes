@@ -1,4 +1,4 @@
-# validation
+# 入力検証 (Validation)
 
 ## 概要
 

@@ -10,14 +10,13 @@
 
 - [設定と Options pattern](設定と-options-pattern.md)
 - [ログと構造化ログ](ログと構造化ログ.md)
-- [validation](validation.md)
+- [入力検証 (Validation)](validation.md)
 - [エラー処理と例外設計](エラー処理と例外設計.md)
-- [repository / service / usecase 分離](repository-service-usecase-分離.md)
+- [Repository / Service / UseCase 分離](repository-service-usecase-分離.md)
 - [Web API での DTO、境界、マッピング](web-api-での-dto-境界-マッピング.md)
 - [DB アクセス時の注意点](db-アクセス時の注意点.md)
 - [レビュー checklist](checklist.md)
 
 ---
 
-[章別ノート一覧に戻る](../README.md)
-
+[章別ノート一覧に戻る](../index.md)

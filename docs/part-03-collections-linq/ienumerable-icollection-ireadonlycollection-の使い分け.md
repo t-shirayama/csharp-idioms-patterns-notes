@@ -1,8 +1,8 @@
-# IEnumerable / ICollection / IReadOnlyCollection の使い分け
+# IEnumerable / ICollection / IReadOnlyCollection / IReadOnlyList の使い分け
 
 ## 概要
 
-コレクションを API の境界でどう表すかは、呼び出し側に何を約束するかの設計でもある。`IEnumerable<T>` は列挙できることだけを表し、`ICollection<T>` は件数や追加削除を含み、`IReadOnlyCollection<T>` は読み取り専用の件数付きコレクションを表す。
+コレクションを API の境界でどう表すかは、呼び出し側に何を約束するかの設計でもある。`IEnumerable<T>` は列挙できることだけを表し、`ICollection<T>` は件数や追加削除を含み、`IReadOnlyCollection<T>` は読み取り専用の件数付きコレクションを表す。順序とインデックスアクセスまで約束するなら、`IReadOnlyList<T>` も候補になる。
 
 「何でも受けられるように `IEnumerable<T>`」は便利だが、内部で `Count()` や複数回列挙をするなら、実際にはもっと強い契約を要求している。引数と戻り値の型は、実装都合ではなく、呼び出し側が誤解しない単位で選ぶ。
 

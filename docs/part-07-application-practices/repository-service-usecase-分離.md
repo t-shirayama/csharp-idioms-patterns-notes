@@ -1,4 +1,4 @@
-# repository / service / usecase 分離
+# Repository / Service / UseCase 分離
 
 ## 概要
 
