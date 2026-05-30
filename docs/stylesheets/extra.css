@@ -1,5 +1,6 @@
 .md-nav__link {
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .md-nav--primary .md-nav__item {
@@ -14,8 +15,40 @@
   font-size: 0.72rem;
 }
 
+.md-typeset {
+  overflow-wrap: break-word;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.md-typeset p,
+.md-typeset li,
+.md-typeset td,
+.md-typeset th {
+  overflow-wrap: anywhere;
+}
+
+.md-typeset :not(pre) > code {
+  overflow-wrap: anywhere;
+  white-space: break-spaces;
+  word-break: break-word;
+}
+
 @media screen and (min-width: 76.25em) {
   .md-sidebar--primary {
     width: 13.5rem;
+  }
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-typeset h1 {
+    font-size: 1.6rem;
+    word-break: break-word;
   }
 }
