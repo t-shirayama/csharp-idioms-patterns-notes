@@ -24,6 +24,7 @@
 - 全体像から探す: [docs/index.md](docs/index.md)
 - すぐレビューに使う: 各 Part の `checklist.md`
 - 個別トピックを深掘りする: 各 Part フォルダ内の項目別 Markdown
+- 付録から探す: プロセス起動・環境変数・バージョン情報・ZIP・reflection・source generator・unsafe / native interop・一時ファイル・trimming / NativeAOT など、横断的な実務トピックを確認する
 
 ## Part 一覧
 

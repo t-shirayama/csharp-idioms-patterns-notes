@@ -42,6 +42,8 @@ plugins:
 
 nav:
   - Home: index.md
+  - 目的別索引: topic-index.md
+  - 全チェックリスト: checklists.md
   - 1 基礎:
       - 概要: part-01-modern-csharp-basics/README.md
       - レビュー観点: part-01-modern-csharp-basics/checklist.md
@@ -94,6 +96,7 @@ nav:
       - Template Method、Strategy、Factory: part-06-oop-patterns/template-method-strategy-factory.md
       - Dependency Injection: part-06-oop-patterns/dependency-injection.md
       - Value Object、Entity、DTO: part-06-oop-patterns/value-object-entity-dto.md
+      - ドメインモデルとアプリケーション層の境界: part-06-oop-patterns/domain-model-application-boundary.md
       - SOLID 原則を C# コードで読む: part-06-oop-patterns/solid-原則を-csharp-コードで読む.md
   - 7 非同期:
       - 概要: part-07-async-parallel-io/README.md
@@ -182,6 +185,8 @@ nav:
       - 環境変数: appendix/環境変数.md
       - バージョン情報: appendix/バージョン情報.md
       - ZIP 操作: appendix/zip-操作.md
+      - 一時ファイルと作業ディレクトリ: appendix/一時ファイルと作業ディレクトリ.md
       - reflection: appendix/reflection.md
       - source generator の入口: appendix/source-generator-の入口.md
       - unsafe / native interop の入口: appendix/unsafe-native-interop-の入口.md
+      - trimming / NativeAOT 互換性: appendix/trimming-nativeaot-互換性.md
