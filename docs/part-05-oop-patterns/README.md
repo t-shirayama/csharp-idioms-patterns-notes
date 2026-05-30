@@ -4,27 +4,61 @@
 
 C# では `class`、`interface`、`abstract class`、`record`、DI コンテナなど選択肢が多いため、「できる」よりも「この場面で選ぶ理由があるか」を重視します。
 
-## 読み方
+## このPartで身につくこと
 
-この Part では、オブジェクト指向を「継承を使うこと」ではなく、状態、振る舞い、依存関係をどこに置くかの判断として扱います。設計パターンや SOLID 原則は、名前を覚えることよりも、変更理由を説明できるか、テストで境界を押さえられるかを確認するための道具です。
+- 状態、振る舞い、依存関係をどの型に置くか判断する力。
+- 継承、interface、合成、委譲を使い分ける基準。
+- Template Method、Strategy、Factory、DI を実務コードで読む視点。
+- Entity、Value Object、DTO を混ぜない境界設計。
+- SOLID 原則を抽象論ではなく、レビュー可能なコードの問いに落とす方法。
 
-- 状態を守る必要があるなら、まずカプセル化を確認する。
-- 実装差し替えが必要なら、interface、Strategy、DI のどれが自然かを比べる。
-- 共通処理をまとめたいだけなら、継承より合成や委譲で済まないかを考える。
-- 外部 API や DB と接する型は、DTO、Entity、Value Object の境界を混ぜない。
-- 原則やパターンを使ったあと、呼び出し側のコードが読みやすくなったかを見直す。
+## 読む順番
 
-コードレビューでは、まず [Part 5 レビュー用チェックリスト](checklist.md) で責務、依存の向き、DI ライフタイム、テスト境界を確認します。パターン名に引っ張られず、「どの変更が局所化されたか」「どの失敗をテストしやすくなったか」を説明できる状態を目標にします。
+まず [カプセル化、継承、ポリモーフィズム](カプセル化-継承-ポリモーフィズム.md) で、状態を守ることと振る舞いを差し替えることを分けて考えます。次に [interface と abstract class の使い分け](interface-と-abstract-class-の使い分け.md) を読み、契約だけを表すのか、共通実装を持つのかを判断できるようにします。
 
-## 項目一覧
+その後、[Template Method、Strategy、Factory](template-method-strategy-factory.md) と [Dependency Injection](dependency-injection.md) を続けて読むと、パターンとDIが「依存を隠す仕組み」ではなく「依存の作り方と差し替え方を明示する設計」だとつながります。最後に [Value Object、Entity、DTO](value-object-entity-dto.md) と [SOLID 原則を C# コードで読む](solid-原則を-csharp-コードで読む.md) で、業務モデルと保守性の観点へ広げます。
 
-- [カプセル化、継承、ポリモーフィズム](カプセル化-継承-ポリモーフィズム.md)
-- [interface と abstract class の使い分け](interface-と-abstract-class-の使い分け.md)
-- [Template Method、Strategy、Factory](template-method-strategy-factory.md)
-- [Dependency Injection](dependency-injection.md)
-- [Value Object、Entity、DTO](value-object-entity-dto.md)
-- [SOLID 原則を C# コードで読む](solid-原則を-csharp-コードで読む.md)
-- [Part 5 レビュー用チェックリスト](checklist.md)
+## 重要トピック
+
+- カプセル化は `private` を増やすことではなく、不正な状態を作れない入口を設計すること。
+- 継承は「is-a」が自然で、基底型の契約を壊さない場合に限定して使う。
+- interface は差し替えたい境界、abstract class は共通実装を含む骨格として使う。
+- Strategy は条件分岐の増加を型の差し替えに移すときに有効。
+- Factory は生成条件や依存の組み立てを呼び出し側から分離したいときに使う。
+- DI はテスト容易性だけでなく、ライフタイム、構成、依存の向きを管理する仕組みとして読む。
+
+## 実務での使いどころ
+
+設計パターンは、変更が予想される場所を局所化したいときに効きます。決済方法、通知方法、価格計算、外部APIクライアントのように実装差し替えが現実に起きる領域では、interface、Strategy、DI の組み合わせが自然です。
+
+一方で、すべてを抽象化するとコードの追跡コストが上がります。処理が1種類しかなく変更予定も薄い場合は、まず単純なクラスやメソッドで始め、分岐や依存が増えた時点で抽象を導入する判断も実務的です。
+
+## よくある落とし穴
+
+- パターン名を使うことが目的になり、呼び出し側のコードが読みにくくなる。
+- 共通処理をまとめたいだけで継承を選び、基底クラスが肥大化する。
+- interface を細かく作りすぎて、実装とテストの両方が追いにくくなる。
+- Entity、DTO、ViewModel の責務が混ざり、永続化や表示の都合が業務ロジックへ漏れる。
+- DI コンテナ登録は動くが、ライフタイム不一致や循環依存をレビューしていない。
+
+## レビュー観点
+
+- その型の変更理由は1つに説明できるか。
+- 不正な状態を外から作れないAPIになっているか。
+- 継承より合成や委譲の方が単純にならないか。
+- interface は実際に差し替え点、境界、テスト容易性に貢献しているか。
+- DI のライフタイムは依存先と整合しているか。
+- パターン導入によって、どの変更が局所化されたか説明できるか。
+
+## 記事一覧
+
+- [カプセル化、継承、ポリモーフィズム](カプセル化-継承-ポリモーフィズム.md): 状態を守る設計、継承の使いどころ、ポリモーフィズムの読み方を整理します。
+- [interface と abstract class の使い分け](interface-と-abstract-class-の使い分け.md): 契約と共通実装を分け、抽象の導入理由を判断します。
+- [Template Method、Strategy、Factory](template-method-strategy-factory.md): 実務で出やすいパターンを、分岐、共通処理、生成責務の観点で扱います。
+- [Dependency Injection](dependency-injection.md): DI の目的、登録、ライフタイム、テスト境界を確認します。
+- [Value Object、Entity、DTO](value-object-entity-dto.md): 業務上の同一性、値の等価性、境界をまたぐデータ表現を分けます。
+- [SOLID 原則を C# コードで読む](solid-原則を-csharp-コードで読む.md): SOLID をコードレビューで使える問いに変換します。
+- [Part 5 レビュー用チェックリスト](checklist.md): 責務、依存、抽象、DI、テスト境界を短時間で確認するための一覧です。
 
 ---
 

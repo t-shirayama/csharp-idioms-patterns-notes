@@ -4,27 +4,62 @@
 
 実務では、`async` / `await`、キャンセル、タイムアウト、リトライ、HTTP 呼び出し、並列化を別々の話としてではなく、「呼び出し元が待てるか」「中断できるか」「失敗時に再実行してよいか」という観点でつなげて考えます。
 
-## 読み方
+## このPartで身につくこと
 
-この Part では、非同期、並列、外部 I/O を「速くするテクニック」ではなく、待機、失敗、中断、同時実行数を設計する話として扱います。特に外部サービスや DB を含む処理では、正常系のコードだけでなく、遅延、キャンセル、リトライ、部分失敗をレビュー対象にします。
+- I/O-bound と CPU-bound を分けて、`async` と並列処理を選ぶ判断。
+- `Task`、`ValueTask`、`CancellationToken` の実務的な使いどころ。
+- `HttpClient` のライフタイム、タイムアウト、リトライ、JSON 境界の設計。
+- `Parallel`、PLINQ、`Channel` を使う前に確認すべき並列度と副作用。
+- 遅延、キャンセル、部分失敗をレビュー対象にする視点。
 
-- I/O-bound ならまず `async` / `await` で待機中のスレッド占有を避ける。
-- CPU-bound なら `Parallel`、PLINQ、`Task.Run` の必要性と上限を確認する。
-- キャンセルは呼び出し元の意思、タイムアウトは待機時間の境界として分ける。
-- リトライは冪等性、対象例外、全体の待機時間を決めてから入れる。
-- 外部 I/O は専用クライアントに閉じ込め、HTTP や JSON の都合を業務コードへ漏らさない。
+## 読む順番
 
-コードレビューでは、まず [Part 6 レビュー用チェックリスト](checklist.md) で async のつながり、`CancellationToken` の伝播、`HttpClient` のライフタイム、並列度の上限、retry の冪等性を確認します。正常系の読みやすさだけでなく、遅い、止めたい、失敗した、部分的に終わった、を説明できるかを基準にします。
+最初に [async / await の基本](async-await-の基本.md) を読み、非同期が「別スレッドで実行すること」ではなく、待機を表現する仕組みだと押さえます。続けて [Task、ValueTask、CancellationToken](task-valuetask-cancellationtoken.md) を読み、戻り値とキャンセルの伝播を判断できるようにします。
 
-## 項目一覧
+ライブラリコードや古いコードを読む機会がある場合は [ConfigureAwait の現代的な扱い](configureawait-の現代的な扱い.md) を確認します。その後、外部サービス連携の基礎として [HttpClient の定石](httpclient-の定石.md) を読み、最後に [並列処理、Parallel、PLINQ、Channel](並列処理-parallel-plinq-channel.md) と [タイムアウト、リトライ、キャンセル設計](タイムアウト-リトライ-キャンセル設計.md) で、同時実行と失敗時のふるまいへ広げます。
 
-- [async / await の基本](async-await-の基本.md)
-- [Task、ValueTask、CancellationToken](task-valuetask-cancellationtoken.md)
-- [ConfigureAwait の現代的な扱い](configureawait-の現代的な扱い.md)
-- [HttpClient の定石](httpclient-の定石.md)
-- [並列処理、Parallel、PLINQ、Channel](並列処理-parallel-plinq-channel.md)
-- [タイムアウト、リトライ、キャンセル設計](タイムアウト-リトライ-キャンセル設計.md)
-- [Part 6 レビュー用チェックリスト](checklist.md)
+## 重要トピック
+
+- I/O-bound は `async` / `await` で待機中のスレッド占有を避ける。
+- CPU-bound は並列化の前に処理量、共有状態、並列度の上限を確認する。
+- `CancellationToken` は呼び出し元の中断意思を下位処理へ伝える契約として扱う。
+- タイムアウトは待機時間の境界、キャンセルは利用者や上位処理の意思として分ける。
+- `HttpClient` は使い捨てにせず、`IHttpClientFactory` や専用クライアントで管理する。
+- リトライは冪等性、対象例外、最大待機時間、ログを決めてから入れる。
+
+## 実務での使いどころ
+
+Web API、DB、ファイル、外部サービスの呼び出しは、多くの場合 I/O-bound です。この場合は `async` / `await` を使い、呼び出し元まで非同期の流れを保つことで、待機中のリソース消費を抑えます。
+
+大量計算や変換処理のように CPU を使い切る処理では、`Parallel` や PLINQ を検討します。ただし、共有コレクションへの書き込み、DBやHTTPへの同時アクセス、ログの大量出力が絡むと、速くなるどころか不安定になることがあります。並列化は「上限を決められるか」「順序が必要か」「副作用を隔離できるか」を確認してから導入します。
+
+## よくある落とし穴
+
+- `async` メソッド内で `.Result` や `.Wait()` を使い、デッドロックやスレッド枯渇を招く。
+- `CancellationToken` を受け取るだけで、下位の I/O やループへ渡していない。
+- `HttpClient` をリクエストごとに `new` して、接続管理を壊す。
+- リトライ対象が冪等でないのに、同じ処理を再実行して二重登録や二重課金を起こす。
+- CPU-bound ではない処理を無理に並列化し、外部サービスやDBへ負荷を集中させる。
+- `ValueTask` を最適化目的で先に選び、コードの制約と複雑さだけが増える。
+
+## レビュー観点
+
+- I/O-bound と CPU-bound のどちらの問題を解こうとしているか説明できるか。
+- 非同期処理が呼び出し元まで自然につながっているか。
+- `CancellationToken` は受け取り、伝播、監視のどこまで実装されているか。
+- タイムアウト、リトライ、キャンセルの責務が混ざっていないか。
+- `HttpClient` の生成、ライフタイム、既定ヘッダー、例外処理は一箇所に閉じているか。
+- 並列処理の最大同時実行数、共有状態、順序、例外集約を確認しているか。
+
+## 記事一覧
+
+- [async / await の基本](async-await-の基本.md): 非同期メソッドの書き方、待機の意味、呼び出し元への伝播を整理します。
+- [Task、ValueTask、CancellationToken](task-valuetask-cancellationtoken.md): 非同期の戻り値、最適化の判断、キャンセル契約を扱います。
+- [ConfigureAwait の現代的な扱い](configureawait-の現代的な扱い.md): アプリ種別やライブラリコードごとの考え方を確認します。
+- [HttpClient の定石](httpclient-の定石.md): `HttpClient` のライフタイム、専用クライアント、失敗時の扱いを整理します。
+- [並列処理、Parallel、PLINQ、Channel](並列処理-parallel-plinq-channel.md): CPU-bound 処理、ストリーム処理、同時実行数の判断を扱います。
+- [タイムアウト、リトライ、キャンセル設計](タイムアウト-リトライ-キャンセル設計.md): 外部 I/O の失敗、遅延、中断を設計として扱います。
+- [Part 6 レビュー用チェックリスト](checklist.md): async、キャンセル、HTTP、並列化、リトライを短時間で確認するための一覧です。
 
 ---
 
