@@ -1,0 +1,21 @@
+.md-nav__link {
+  line-height: 1.35;
+}
+
+.md-nav--primary .md-nav__item {
+  margin-top: 0.18rem;
+}
+
+.md-nav--primary .md-nav__item--section > .md-nav__link {
+  font-weight: 700;
+}
+
+.md-tabs__link {
+  font-size: 0.72rem;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    width: 13.5rem;
+  }
+}
