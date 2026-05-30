@@ -84,6 +84,13 @@ namespace Orders.Infrastructure.Persistence;
 - 同名の型が増えて、using alias で補うより名前設計を見直すべき状態になっていないか
 - テストプロジェクトの namespace が本体コードの構造と対応しているか
 
+## テスト観点
+
+- テストプロジェクトの namespace が本体コードと対応し、対象クラスを探しやすいか
+- `InternalsVisibleTo` やテスト用 helper の namespace が、本体の依存方向を曖昧にしていないか
+- global using に追加した依存が、テストから本体へ逆流していないか
+- using alias を使うテストで、同名型の取り違えが起きないよう期待する型を明示しているか
+
 ---
 
 [Part README に戻る](README.md)

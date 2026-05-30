@@ -1,4 +1,4 @@
-# iterators、yield
+# iterators と yield
 
 ## 概要
 
@@ -13,12 +13,16 @@ iterator は、`IEnumerable<T>` や `IEnumerator<T>` を返す処理を簡潔に
 - すぐ全件必要なら `List<T>` や配列を返す方が分かりやすい。
 - DB、HTTP、ファイルI/Oなど外部リソースをまたぐ場合は、列挙タイミングと dispose を確認する。
 - 非同期に逐次取得するなら `IAsyncEnumerable<T>` も検討する。
+- 引数 validation を呼び出し時に失敗させたいなら、iterator 本体と validation を分ける。
+- sequence を複数回使う呼び出し側では、`IEnumerable<T>` のまま保持せず、必要なら境界で materialize する。
 
 ## 使いどころ
 
 `yield` は、ファイル行の処理、ページング結果の逐次変換、木構造の走査、フィルタリング、テストデータ生成などに向いています。中間リストを作らずに済むため、メモリ使用量を抑えられます。
 
 ただし、業務上「この時点で全件を確定させたい」境界では、あえて `ToList()` で即時評価する方が安全です。
+
+`yield` を含むメソッドは iterator method になり、メソッド本体の実行開始が列挙時まで遅れます。そのため、引数チェックを本体に書くと、呼び出し時ではなく `foreach` や `ToList()` のタイミングで例外が出ます。API として即時に失敗してほしい場合は、外側の通常メソッドと内側の iterator に分けます。
 
 ## 良い例
 
@@ -56,6 +60,31 @@ public static IEnumerable<Category> Traverse(Category root)
 ```
 
 呼び出し側は必要なところまで列挙できます。
+
+引数 validation を即時に行いたい場合は、local function を使います。
+
+```csharp
+public static IEnumerable<Category> TraverseSafe(Category root)
+{
+    ArgumentNullException.ThrowIfNull(root);
+    return TraverseCore(root);
+
+    static IEnumerable<Category> TraverseCore(Category node)
+    {
+        yield return node;
+
+        foreach (var child in node.Children)
+        {
+            foreach (var item in TraverseCore(child))
+            {
+                yield return item;
+            }
+        }
+    }
+}
+```
+
+`TraverseSafe(null)` は呼び出し時に失敗します。`yield` の遅延評価と API の失敗タイミングを分けて考えられます。
 
 ## 避けたい書き方
 
@@ -117,6 +146,29 @@ public static IEnumerable<Order> StreamOrders()
 
 `Stream` という名前にすることで、呼び出し側に列挙中リソースを保持する可能性を意識させます。
 
+非同期に逐次取得する場合は、`IAsyncEnumerable<T>` と cancellation を明示します。
+
+```csharp
+public static async IAsyncEnumerable<Order> StreamOrdersAsync(
+    [EnumeratorCancellation] CancellationToken cancellationToken = default)
+{
+    await foreach (var order in client.ReadOrdersAsync(cancellationToken))
+    {
+        yield return order;
+    }
+}
+```
+
+`await foreach` の呼び出し側でもキャンセルを渡せるようにしておくと、長時間の stream を止めやすくなります。
+
+## 使いすぎのサイン
+
+- 呼び出し側が常に `ToList()` しており、遅延評価の利点がない。
+- sequence の列挙中に DB 接続やファイルハンドルを長く保持している。
+- `yield return` の前後にログ、カウンタ更新、状態変更などの副作用が多い。
+- 例外発生タイミングがレビューやテストで説明できない。
+- `IEnumerable<T>` を返す public API 名から、一度だけ消費する stream なのか、何度でも列挙できる値の集合なのか分からない。
+
 ## レビュー観点
 
 - `IEnumerable<T>` を返すことが、遅延評価として自然か。
@@ -125,3 +177,15 @@ public static IEnumerable<Order> StreamOrders()
 - `using`、`try/finally`、外部接続が iterator の寿命と合っているか。
 - 即時評価すべき境界で `ToList()` / `ToArray()` が使われているか。
 - テストで、途中終了、複数回列挙、空 sequence、例外ケースを確認しているか。
+
+## テスト観点
+
+- iterator method の呼び出し時と列挙時で、どちらのタイミングで例外が出るかを確認する。
+- `Take(1)` などで途中終了した場合に、`finally` や `Dispose` が実行されるか。
+- 同じ sequence を2回列挙したとき、同じ結果になる設計か、再実行される設計かを明確にする。
+- I/O を含む stream は、途中キャンセル、接続失敗、読み取り途中の例外を確認する。
+- `IAsyncEnumerable<T>` では、`await foreach` の cancellation と consumer 側の途中終了を確認する。
+
+---
+
+[Part README に戻る](README.md)

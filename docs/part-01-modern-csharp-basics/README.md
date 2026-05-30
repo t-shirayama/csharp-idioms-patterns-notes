@@ -30,7 +30,15 @@
 - `record` はDTOやValue Objectに向きますが、ライフサイクルやIDを持つEntityには慎重に使う。
 - `required` は便利ですが、バリデーションや不変条件の代替ではない。
 - `struct` は値型にしたい理由だけで選ばず、サイズ、コピーコスト、default 値、変更可能性まで見る。
-- `IDisposable` は「使ったら閉じる」だけでなく、所有権の境界を明確にするための設計要素として読む。
+- `using` / `IDisposable` / `IAsyncDisposable` は「使ったら閉じる」だけでなく、所有権とスコープの境界を明確にするための設計要素として読む。
+
+## ページ別の重点
+
+- 型と nullable: 外部境界で null を受け止め、内部モデルでは null 非許容へ寄せる。
+- class / struct / record: Entity と Value Object の同一性を分け、`record` の自動生成メンバーを設計の一部として扱う。
+- property / init / required / readonly: 初期化漏れ、実行時 validation、不変条件の責務を混同しない。
+- namespace / using: 依存方向と探索性を壊さない範囲で file-scoped namespace と global using を使う。
+- exception / using / IDisposable: 業務エラーと例外、同期解放と非同期解放、生成側と利用側の所有権を分ける。
 
 ## 実務での使いどころ
 
@@ -53,6 +61,7 @@
 - 初期化必須の値は、コンストラクター、`required`、ファクトリのどれで表すべきか整理されているか。
 - 例外は握りつぶされず、境界で意味のある形に変換されているか。
 - リソースを所有する型は、解放責任とライフサイクルが読み取れるか。
+- `using var` / `await using` のスコープが、所有権と非同期解放の要件に合っているか。
 
 ## 記事一覧
 

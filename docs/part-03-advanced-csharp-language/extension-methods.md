@@ -13,12 +13,16 @@ extension method は、既存の型にメソッドを追加したように呼び
 - 状態変更、外部I/O、重要な業務ルールを隠すなら避ける。
 - 呼び出し側が namespace を見なくても意図を推測できる名前にする。
 - public にする前に、通常の static helper や domain service の方が自然でないか確認する。
+- 対象型の invariant を変更するなら、extension method ではなく対象型自身のメソッドを優先する。
+- `IQueryable<T>` 向けの extension method は、LINQ provider が変換できる式だけを置く。通常の .NET メソッド呼び出しを混ぜると実行時に失敗しやすい。
 
 ## 使いどころ
 
 extension method は、文字列やコレクションの小さな判定、DTO から表示用テキストへの変換、テストデータ作成の補助、`IServiceCollection` への登録拡張などでよく使います。
 
 特に `IServiceCollection` や `IEndpointRouteBuilder` のように、フレームワークが拡張ポイントとして想定している型では、extension method が自然なAPIになります。
+
+配置する namespace も設計の一部です。どこでも使える `Common.Extensions` に集めると便利ですが、import しただけで大量のメソッドが候補に出ます。業務文脈を持つ extension method は、`Orders` や `Billing` など利用範囲が分かる namespace に置くと、依存の広がりを抑えられます。
 
 ## 良い例
 
@@ -125,6 +129,25 @@ public static string ToDisplayName(this OrderStatus status)
 }
 ```
 
+テストコードでは、builder の補助として extension method を使うと、準備コードを読みやすくできます。
+
+```csharp
+public static OrderBuilder WithApprovedStatus(this OrderBuilder builder)
+{
+    return builder.WithStatus(OrderStatus.Approved);
+}
+```
+
+ただし、テストでだけ通用する暗黙の業務ルールを増やしすぎると、本番コードとの対応が追いにくくなります。fixture の語彙として自然な範囲に留めます。
+
+## 使いすぎのサイン
+
+- `Extensions` namespace を import しないと業務処理の意味が追えない。
+- extension method の中で DB、HTTP、時刻、乱数、ログなどの外部依存に触れている。
+- `IsValid`、`Process`、`Handle` のような文脈の薄い名前が増えている。
+- 対象型の public API より extension method の方が主要な操作になっている。
+- nullable の扱いが method ごとにばらつき、`this string value` と `this string? value` の意図が曖昧になっている。
+
 ## レビュー観点
 
 - 対象型に自然に属する補助操作として読めるか。
@@ -133,3 +156,15 @@ public static string ToDisplayName(this OrderStatus status)
 - メソッド名は文脈を持ち、既存APIと衝突しにくいか。
 - null 許容性と引数 validation は明確か。
 - テストで境界値、null、空コレクション、対象 enum の未定義値を確認できるか。
+
+## テスト観点
+
+- null を受け取る設計なら null 入力、受け取らない設計なら guard の例外を確認する。
+- sequence を扱う extension method は、空、1件、複数件、重複、順序の扱いを確認する。
+- enum 変換では、未定義値や将来追加された値でも安全に扱えるか。
+- `IQueryable<T>` 向けでは、実 provider に近い環境で SQL 変換や実行時例外を確認する。
+- DI 登録用 extension method は、必要な service が登録され、不要な上書きが起きないことを service provider 生成で確認する。
+
+---
+
+[Part README に戻る](README.md)

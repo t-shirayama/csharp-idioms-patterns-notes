@@ -15,6 +15,10 @@
 
 リソース管理では「作った側が破棄する」を基本にします。メソッド引数で受け取った `Stream` や `HttpClient` を内部で破棄すると、呼び出し元の再利用前提を壊すことがあります。
 
+`IDisposable` と `IAsyncDisposable` の違いは、解放処理が非同期 API を必要とするかです。DB 接続、非同期ストリーム、バッファ flush などで非同期解放が提供されているなら `await using` を検討します。同期 `using` で済ませられる型にまで無理に `IAsyncDisposable` を広げる必要はありません。
+
+using declaration (`using var`) はスコープの終わりで破棄されます。短く書けますが、メソッド全体の末尾まで生きると困るリソースでは、ブロック付きの `using` で寿命を狭める方が意図が伝わります。
+
 ## 使いどころ
 
 ファイルやストリームを扱う処理では、短いスコープで `using` を使います。呼び出し元から渡された stream をメソッド内で勝手に dispose するかどうかは、API の契約として明確にします。
@@ -33,6 +37,13 @@ public static async Task<string> ReadAllTextAsync(
 
 業務上の失敗とプログラム上の異常は分けます。入力不正など予測できる失敗は validation error として返す設計も検討し、DB 接続失敗やファイル破損のような予期しない失敗は例外として扱います。
 
+```csharp
+await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+
+await SaveAsync(order, cancellationToken);
+await transaction.CommitAsync(cancellationToken);
+```
+
 ## 良い例
 
 例外を捕捉するなら、回復する、文脈を足して投げ直す、境界でログに残す、のいずれかの目的を明確にします。`throw;` はスタックトレースを保ちますが、`throw ex;` は原因追跡を難しくします。
@@ -50,6 +61,22 @@ catch (DbUpdateException ex)
 
 `IDisposable` を実装する型では、所有しているリソースだけを破棄します。DI コンテナから渡された依存や共有 `HttpClient` のように、自分が生成していないものは勝手に dispose しない設計にします。
 
+```csharp
+public sealed class ReportWriter : IDisposable
+{
+    private readonly StreamWriter _writer;
+
+    public ReportWriter(string path)
+    {
+        _writer = File.CreateText(path);
+    }
+
+    public void WriteLine(string line) => _writer.WriteLine(line);
+
+    public void Dispose() => _writer.Dispose();
+}
+```
+
 ## 避けたい書き方
 
 例外を空の `catch` で握りつぶすと、障害調査が困難になります。ログを出す場合も、同じ例外を何層でもログに出すとノイズになるため、境界で一度記録する方が扱いやすいことが多いです。
@@ -66,6 +93,15 @@ catch
 ```
 
 リソース解放を `finally` で手書きするより、まず `using` で表せないかを考えます。制御フローが増えるほど、例外時の抜け漏れが起きやすくなります。
+
+```csharp
+// 避けたい例: 呼び出し元が所有する stream を勝手に閉じている
+public static void WriteCsv(Stream output, IEnumerable<Row> rows)
+{
+    using var writer = new StreamWriter(output);
+    WriteRows(writer, rows);
+}
+```
 
 ## 改善例
 
@@ -86,6 +122,16 @@ public ReserveResult Reserve(Inventory inventory, int quantity)
 }
 ```
 
+引数で受け取ったリソースを閉じない契約にするなら、`leaveOpen: true` などを明示します。API コメントやメソッド名だけに頼らず、コード上でも所有権が分かる形にします。
+
+```csharp
+public static void WriteCsv(Stream output, IEnumerable<Row> rows)
+{
+    using var writer = new StreamWriter(output, leaveOpen: true);
+    WriteRows(writer, rows);
+}
+```
+
 ## レビュー観点
 
 - `IDisposable` / `IAsyncDisposable` な型を適切なスコープで解放しているか
@@ -95,6 +141,14 @@ public ReserveResult Reserve(Inventory inventory, int quantity)
 - 予測できる業務エラーと予期しない例外を混ぜていないか
 - catch した例外に対して、回復、変換、ログ、再スローの目的が説明できるか
 - 非同期リソースに `using` ではなく `await using` が必要ではないか
+- `using var` の寿命が長すぎず、必要な範囲でリソースを閉じているか
+
+## テスト観点
+
+- 正常系だけでなく、途中で例外が起きた場合にも所有リソースが dispose されるか
+- 呼び出し元から渡された `Stream` などが、メソッド終了後も契約どおり利用可能か
+- 業務エラーが例外ではなく Result / validation error として呼び出し側で分岐できるか
+- 例外変換時に inner exception と調査に必要な文脈が残るか
 
 ---
 

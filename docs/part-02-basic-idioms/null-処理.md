@@ -4,17 +4,25 @@
 
 null 処理は、単なるクラッシュ回避ではなく、値が存在しないことを設計として表すかどうかの判断です。`??`、`?.`、`??=`、`ArgumentNullException.ThrowIfNull` は、前提と代替値を読み手に伝えるために使います。
 
+Nullable reference types が有効なコードでは、型注釈はレビューの契約になります。`string?` は「null が仕様としてあり得る」、`string` は「入口で守るべき前提」として扱い、警告を消すためだけの記号にしないことが大切です。
+
 ## 判断基準
 
 null が「あり得ない前提違反」なら入口で例外にします。null が「検索結果なし」や「任意入力なし」を表すなら、nullable annotation で契約として示します。null が「未読み込み」「権限なし」「外部システム障害」など複数の意味を持ち始めたら、専用型や Result 型を検討します。
 
 `?.` は便利ですが、必須データの欠落を静かに通す用途には向きません。代替値を入れる場合も、その代替値が業務上自然か、単にエラーを隠していないかを確認します。
 
+null と空文字、空コレクションは同じではありません。入力欄では null と空白を同じ「未入力」として正規化することがありますが、検索結果では「該当なし」と「検索していない」を分けたい場合があります。意味が違うなら、同じ `null` に押し込めない方が安全です。
+
+`!` null 許容抑制演算子は、フレームワークやテストフィクスチャの都合で前提を表す最後の手段です。使う場合は、直前のガードやライフサイクル上の保証が読み取れる場所に限定します。
+
 ## 使いどころ
 
 - 必須引数は入口で `ArgumentNullException.ThrowIfNull` により落とす。
 - 表示名など、代替値が自然な場面では `??` を使う。
 - コレクションは null ではなく空で返すと、呼び出し側の分岐を減らしやすい。
+- 任意入力は、境界で trim や空白扱いを決めてから内部へ渡す。
+- 外部 API や DB の欠損値は、変換境界で null の意味を明示する。
 
 ```csharp
 public string GetDisplayName(User user)
@@ -22,6 +30,15 @@ public string GetDisplayName(User user)
     ArgumentNullException.ThrowIfNull(user);
 
     return user.Profile?.DisplayName ?? user.Email;
+}
+```
+
+検索結果なしを表すなら、戻り値の nullable annotation で契約にします。
+
+```csharp
+public Customer? FindCustomer(CustomerId id)
+{
+    return customers.FirstOrDefault(customer => customer.Id == id);
 }
 ```
 
@@ -51,11 +68,24 @@ public void AddWarning(string message)
 }
 ```
 
+コレクションを返す API は、原則として空コレクションを返すと呼び出し側が扱いやすくなります。ただし「未取得」と「取得済みだが0件」を分ける必要がある場合は、状態を別に持たせます。
+
+```csharp
+public IReadOnlyList<Order> GetRecentOrders(CustomerId customerId)
+{
+    return ordersByCustomer.TryGetValue(customerId, out var orders)
+        ? orders
+        : [];
+}
+```
+
 ## 避けたい書き方
 
 - どこでも `?.` を使い、必須データの欠落を静かに通してしまう。
 - null を返すメソッドと空コレクションを返すメソッドが混在している。
 - `!` null 許容抑制演算子で警告だけを消し、実行時の安全性を確認していない。
+- null、空文字、空白を場当たり的に同じ扱いにする。
+- 「未取得」「権限なし」「障害」をすべて null で表す。
 
 ```csharp
 var name = user!.Profile!.DisplayName!;
@@ -64,6 +94,13 @@ var name = user!.Profile!.DisplayName!;
 ```csharp
 // 避けたい例: 本来必須の Customer 欠落が「不明」に化ける
 var customerName = order.Customer?.Name ?? "不明";
+```
+
+`??` の既定値が自然に見えても、データ欠損を隠すなら危険です。
+
+```csharp
+// 避けたい例: 税率設定の欠落が 0% として処理される
+var taxRate = settings.TaxRate ?? 0m;
 ```
 
 ## 改善例
@@ -83,6 +120,16 @@ public Customer? FindCustomer(CustomerId id)
 }
 ```
 
+既定値が業務上自然ではない場合は、設定欠落として失敗させます。任意値として許す場合だけ、名前や型でその意味を表します。
+
+```csharp
+public decimal GetTaxRate(TaxSettings settings)
+{
+    return settings.TaxRate
+        ?? throw new InvalidOperationException("税率設定が未設定です。");
+}
+```
+
 ## レビュー観点
 
 - null が「異常」「未設定」「検索結果なし」のどれを表すのか明確か。
@@ -91,6 +138,16 @@ public Customer? FindCustomer(CustomerId id)
 - Optional 的な表現が必要なほど状態が複雑なら、専用型や Result 型を検討したか。
 - 空文字、空コレクション、null の扱いが API ごとにばらついていないか。
 - null 合体演算子で入れた既定値が、障害やデータ欠落を隠していないか。
+- `!` を使う場合、非 null になる保証が近くに説明されているか。
+- 外部入力を内部モデルへ変換する境界で、null の意味を正規化しているか。
+
+## テスト観点
+
+- 必須引数の null は例外になり、任意引数の null は仕様どおり変換されることを分けて確認する。
+- `??` の既定値が入るケースを、正常な代替値としてテスト名に明示する。
+- `?.` で null が伝播する場合、呼び出し側でどう扱われるかまで確認する。
+- 空文字、空白、null を同じ扱いにするなら、3ケースをまとめて押さえる。
+- 検索結果なし、未取得、権限なしなど、似た状態を null で混同していないかをケースで確認する。
 
 ---
 

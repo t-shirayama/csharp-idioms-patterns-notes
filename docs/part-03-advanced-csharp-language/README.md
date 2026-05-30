@@ -10,18 +10,18 @@
 - covariance / contravariance を、コレクション、delegate、interface の代入互換性として説明できる。
 - delegate、event を、コールバック、通知、疎結合化の手段として使い分けられる。
 - extension method を、既存型の補助APIとして安全に追加できる。
-- attribute を、メタデータ、フレームワーク連携、source generator との接点として読める。
-- iterator と `yield` を、遅延評価、ストリーミング、リソース管理の観点でレビューできる。
-- primary constructor などの新しい構文を、簡潔さと読みやすさのバランスで採用できる。
+- attribute を、メタデータ、フレームワーク連携、source generator、analyzer との接点として読める。
+- iterator と `yield` を、遅延評価、例外発生タイミング、ストリーミング、リソース管理の観点でレビューできる。
+- primary constructor などの新しい構文を、簡潔さ、初期化責務、周辺ツールへの影響のバランスで採用できる。
 
 ## 読む順番
 
 1. [generics、variance、constraints](generics-variance-constraints.md) で、型パラメータにどこまで契約を持たせるかを整理する。
-2. [delegates、events](delegates-events.md) で、コールバックと通知の責務境界を確認する。
+2. [delegates と events](delegates-events.md) で、コールバックと通知の責務境界を確認する。
 3. [extension methods](extension-methods.md) で、既存型を汚さずに読みやすい補助APIを足す方法を押さえる。
 4. [attributes](attributes.md) で、実行時メタデータとビルド時処理の境界を理解する。
-5. [iterators、yield](iterators-yield.md) で、遅延評価と例外発生タイミングをレビューできるようにする。
-6. [primary constructors and modern syntax](primary-constructors-and-modern-syntax.md) で、新しい構文を使う判断基準を固める。
+5. [iterators と yield](iterators-yield.md) で、遅延評価と例外発生タイミングをレビューできるようにする。
+6. [primary constructors と現代構文](primary-constructors-and-modern-syntax.md) で、新しい構文を使う判断基準を固める。
 
 最後に [コードレビューチェックリスト](checklist.md) を使い、Part 3 の観点で自分のコードを見直します。
 
@@ -34,6 +34,8 @@
 - attribute は宣言的で読みやすい反面、実行時に何が起きるかがコードだけでは見えにくい。
 - `yield` はメモリ効率を上げられますが、評価タイミング、例外、dispose のタイミングが遅れる。
 - 新構文は短さより、既存チームが読んで意図を追えるかを優先する。
+- `required`、nullable、constructor guard は役割が異なるため、初期化漏れと値の妥当性を分けて考える。
+- source generator や analyzer と組み合わせる機能は、生成結果や診断メッセージまでレビュー対象にする。
 
 ## 実務での使いどころ
 
@@ -50,6 +52,8 @@
 - attribute に処理の本体を寄せすぎ、テストやデバッグが難しくなる。
 - `yield` で返した sequence を複数回列挙し、I/O や重い計算が繰り返される。
 - primary constructor や collection expression を、チームの読みやすさを確認せず一気に広げる。
+- `Func` / `Action` を増やしすぎて、処理の業務上の名前がコードから消える。
+- `required` を validation と誤解し、空文字や形式不正を通してしまう。
 
 ## レビュー観点
 
@@ -60,15 +64,17 @@
 - attribute による挙動は、テスト、ドキュメント、起動時検証のいずれかで確認できるか。
 - `IEnumerable<T>` を返す処理は、遅延評価であることが呼び出し側にとって自然か。
 - 新構文の採用は、既存コードのスタイル、対象 C# バージョン、チームの理解と揃っているか。
+- public API の高度な言語機能は、失敗時の例外、nullable 契約、テスト方法まで説明できるか。
+- generator、reflection、DI、serialization など、言語機能の外側にある仕組みとの境界が見えているか。
 
 ## 記事一覧
 
 - [generics、variance、constraints](generics-variance-constraints.md): 型パラメータ、制約、共変性、反変性を設計判断として扱います。
-- [delegates、events](delegates-events.md): コールバック、通知、イベント購読の責務と落とし穴を整理します。
+- [delegates と events](delegates-events.md): コールバック、通知、イベント購読の責務と落とし穴を整理します。
 - [extension methods](extension-methods.md): 既存型への補助API追加を、読みやすさと責務境界の観点で扱います。
 - [attributes](attributes.md): 属性をメタデータ、フレームワーク連携、テスト容易性の観点で確認します。
-- [iterators、yield](iterators-yield.md): 遅延評価、ストリーミング、例外と dispose のタイミングを整理します。
-- [primary constructors and modern syntax](primary-constructors-and-modern-syntax.md): primary constructor などの新構文を採用する判断基準をまとめます。
+- [iterators と yield](iterators-yield.md): 遅延評価、ストリーミング、例外と dispose のタイミングを整理します。
+- [primary constructors と現代構文](primary-constructors-and-modern-syntax.md): primary constructor などの新構文を採用する判断基準をまとめます。
 - [コードレビューチェックリスト](checklist.md): Part 3 の内容をレビュー時に確認するためのチェックリストです。
 
 ---
