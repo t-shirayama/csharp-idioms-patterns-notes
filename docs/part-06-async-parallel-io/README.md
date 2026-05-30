@@ -14,6 +14,8 @@
 - リトライは冪等性、対象例外、全体の待機時間を決めてから入れる。
 - 外部 I/O は専用クライアントに閉じ込め、HTTP や JSON の都合を業務コードへ漏らさない。
 
+コードレビューでは、まず [Part 6 レビュー用チェックリスト](checklist.md) で async のつながり、`CancellationToken` の伝播、`HttpClient` のライフタイム、並列度の上限、retry の冪等性を確認します。正常系の読みやすさだけでなく、遅い、止めたい、失敗した、部分的に終わった、を説明できるかを基準にします。
+
 ## 項目一覧
 
 - [async / await の基本](async-await-の基本.md)
@@ -22,6 +24,7 @@
 - [HttpClient の定石](httpclient-の定石.md)
 - [並列処理、Parallel、PLINQ、Channel](並列処理-parallel-plinq-channel.md)
 - [タイムアウト、リトライ、キャンセル設計](タイムアウト-リトライ-キャンセル設計.md)
+- [Part 6 レビュー用チェックリスト](checklist.md)
 
 ---
 

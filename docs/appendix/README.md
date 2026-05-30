@@ -5,6 +5,7 @@
 
 ## 項目一覧
 
+- [補足トピックのレビュー checklist](checklist.md)
 - [プロセス起動](プロセス起動.md)
 - [環境変数](環境変数.md)
 - [バージョン情報](バージョン情報.md)
@@ -12,6 +13,12 @@
 - [reflection](reflection.md)
 - [source generator の入口](source-generator-の入口.md)
 - [unsafe / native interop の入口](unsafe-native-interop-の入口.md)
+
+## 読み返し方
+
+- 実装前は各トピックの本文で、どこに境界を置くかを確認する。
+- レビュー時は checklist を使い、入力、失敗時の見え方、テスト境界、運用差分を短い項目で確認する。
+- プロセス起動、環境変数、ZIP 展開、reflection、source generator、unsafe / native interop は、正常系よりも「暗黙の前提」が不具合になりやすい。レビューでは、その前提がコードかテストか運用メモに残っているかを見る。
 
 ---
 

@@ -11,6 +11,7 @@ C# 8 以降の機能を前提にしつつ、プロジェクトの Target Framewo
 - [property、init、required、readonly](property-init-required-readonly.md)
 - [namespace、using、file-scoped namespace](namespace-using-file-scoped-namespace.md)
 - [exception、using、IDisposable、リソース管理](exception-using-idisposable-リソース管理.md)
+- [コードレビューチェックリスト](checklist.md)
 
 ---
 

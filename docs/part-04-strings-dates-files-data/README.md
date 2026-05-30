@@ -14,9 +14,12 @@
 - 保存形式や API 契約では、命名、日時、null、文字コードを明示する。
 - OS、culture、タイムゾーンに依存する処理は、実行環境が変わっても同じ判断になるかを見る。
 - 最適化 API や正規表現は、必要な箇所に絞り、テストで境界値を固定する。
+- チェックリストでは、入力の正規化、保存形式、境界日時、パストラバーサル、JSON 互換性、Regex タイムアウトを優先して確認する。
+- レビューコメントでは「この環境なら動く」ではなく、culture、OS、タイムゾーン、外部データの変更で壊れる条件を具体的に書く。
 
 ## 項目一覧
 
+- [コードレビュー用チェックリスト](checklist.md)
 - [string 比較、検索、分割、補間](string-比較-検索-分割-補間.md)
 - [StringBuilder、Span / Memory の入口](stringbuilder-span-memory-の入口.md)
 - [DateTime、DateOnly、TimeOnly、DateTimeOffset](datetime-dateonly-timeonly-datetimeoffset.md)
