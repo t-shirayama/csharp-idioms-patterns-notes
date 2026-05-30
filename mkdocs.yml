@@ -42,7 +42,7 @@ plugins:
 
 nav:
   - Home: index.md
-  - 1 基礎体力:
+  - 1 基礎:
       - 概要: part-01-modern-csharp-basics/README.md
       - レビュー観点: part-01-modern-csharp-basics/checklist.md
       - C# と .NET の全体像: part-01-modern-csharp-basics/csharp-と-dotnet-の全体像.md
@@ -51,7 +51,7 @@ nav:
       - property、init、required、readonly: part-01-modern-csharp-basics/property-init-required-readonly.md
       - namespace、using、file-scoped namespace: part-01-modern-csharp-basics/namespace-using-file-scoped-namespace.md
       - exception、using、IDisposable、リソース管理: part-01-modern-csharp-basics/exception-using-idisposable-リソース管理.md
-  - 2 基本文法:
+  - 2 文法:
       - 概要: part-02-basic-idioms/README.md
       - レビュー観点: part-02-basic-idioms/checklist.md
       - 初期化、代入、ガード節: part-02-basic-idioms/初期化-代入-ガード節.md
@@ -59,7 +59,7 @@ nav:
       - null 処理: part-02-basic-idioms/null-処理.md
       - enum、flags enum、代替設計: part-02-basic-idioms/enum-flags-enum-代替設計.md
       - range、index、tuple、deconstruction、匿名型: part-02-basic-idioms/range-index-tuple-deconstruction-匿名型.md
-  - 3 コレクション/LINQ:
+  - 3 LINQ:
       - 概要: part-03-collections-linq/README.md
       - レビュー観点: part-03-collections-linq/checklist.md
       - array、List、Dictionary、HashSet: part-03-collections-linq/array-list-dictionary-hashset.md
@@ -67,7 +67,7 @@ nav:
       - LINQ の基本、遅延評価、即時評価: part-03-collections-linq/linq-の基本-遅延評価-即時評価.md
       - LINQ を使いこなす: part-03-collections-linq/linq-を使いこなす.md
       - LINQ で避けたい書き方とパフォーマンス: part-03-collections-linq/linq-で避けたい書き方とパフォーマンス.md
-  - 4 文字列/日付/ファイル:
+  - 4 文字/日付:
       - 概要: part-04-strings-dates-files-data/README.md
       - レビュー観点: part-04-strings-dates-files-data/checklist.md
       - string 比較、検索、分割、補間: part-04-strings-dates-files-data/string-比較-検索-分割-補間.md
@@ -77,7 +77,7 @@ nav:
       - file / path / directory 操作: part-04-strings-dates-files-data/file-path-directory-操作.md
       - JSON serialization と System.Text.Json: part-04-strings-dates-files-data/json-serialization-と-system-text-json.md
       - 正規表現と GeneratedRegex: part-04-strings-dates-files-data/正規表現と-generatedregex.md
-  - 5 OOP/設計:
+  - 5 設計:
       - 概要: part-05-oop-patterns/README.md
       - レビュー観点: part-05-oop-patterns/checklist.md
       - カプセル化、継承、ポリモーフィズム: part-05-oop-patterns/カプセル化-継承-ポリモーフィズム.md
@@ -86,7 +86,7 @@ nav:
       - Dependency Injection: part-05-oop-patterns/dependency-injection.md
       - Value Object、Entity、DTO: part-05-oop-patterns/value-object-entity-dto.md
       - SOLID 原則を C# コードで読む: part-05-oop-patterns/solid-原則を-csharp-コードで読む.md
-  - 6 非同期/並列:
+  - 6 非同期:
       - 概要: part-06-async-parallel-io/README.md
       - レビュー観点: part-06-async-parallel-io/checklist.md
       - async / await の基本: part-06-async-parallel-io/async-await-の基本.md
@@ -95,7 +95,7 @@ nav:
       - HttpClient の定石: part-06-async-parallel-io/httpclient-の定石.md
       - 並列処理、Parallel、PLINQ、Channel: part-06-async-parallel-io/並列処理-parallel-plinq-channel.md
       - タイムアウト、リトライ、キャンセル設計: part-06-async-parallel-io/タイムアウト-リトライ-キャンセル設計.md
-  - 7 実務アプリ:
+  - 7 アプリ:
       - 概要: part-07-application-practices/README.md
       - レビュー観点: part-07-application-practices/checklist.md
       - 設定と Options pattern: part-07-application-practices/設定と-options-pattern.md
@@ -114,7 +114,7 @@ nav:
       - 時刻、乱数、外部 I/O の分離: part-08-testable-csharp/時刻-乱数-外部-i-o-の分離.md
       - テストデータビルダー: part-08-testable-csharp/テストデータビルダー.md
       - 例外・非同期・境界値のテスト: part-08-testable-csharp/例外・非同期・境界値のテスト.md
-  - 9 スタイル/保守性:
+  - 9 保守:
       - 概要: part-09-style-review-maintainability/README.md
       - レビュー観点: part-09-style-review-maintainability/checklist.md
       - 命名規則: part-09-style-review-maintainability/命名規則.md
@@ -123,7 +123,7 @@ nav:
       - 読みやすい条件式: part-09-style-review-maintainability/読みやすい条件式.md
       - コードレビュー観点: part-09-style-review-maintainability/コードレビュー観点.md
       - analyzer、EditorConfig、nullable 警告との付き合い方: part-09-style-review-maintainability/analyzer-editorconfig-nullable-警告との付き合い方.md
-  - 10 性能/落とし穴:
+  - 10 性能:
       - 概要: part-10-performance-pitfalls/README.md
       - レビュー観点: part-10-performance-pitfalls/checklist.md
       - allocation を意識する場面: part-10-performance-pitfalls/allocation-を意識する場面.md
@@ -133,6 +133,49 @@ nav:
       - async の落とし穴: part-10-performance-pitfalls/async-の落とし穴.md
       - 例外を制御フローに使わない: part-10-performance-pitfalls/例外を制御フローに使わない.md
       - BenchmarkDotNet の入口: part-10-performance-pitfalls/benchmarkdotnet-の入口.md
+  - 補足:
+      - 11 C#言語:
+          - 概要: part-11-advanced-csharp-language/README.md
+          - レビュー観点: part-11-advanced-csharp-language/checklist.md
+          - generics、variance、constraints: part-11-advanced-csharp-language/generics-variance-constraints.md
+          - delegates と events: part-11-advanced-csharp-language/delegates-events.md
+          - extension methods: part-11-advanced-csharp-language/extension-methods.md
+          - attributes: part-11-advanced-csharp-language/attributes.md
+          - iterators と yield: part-11-advanced-csharp-language/iterators-yield.md
+          - primary constructors と現代構文: part-11-advanced-csharp-language/primary-constructors-and-modern-syntax.md
+      - 12 ASP.NET:
+          - 概要: part-12-aspnetcore-webapi/README.md
+          - レビュー観点: part-12-aspnetcore-webapi/checklist.md
+          - authentication / authorization: part-12-aspnetcore-webapi/authentication-authorization.md
+          - middleware / filters / endpoint filters: part-12-aspnetcore-webapi/middleware-filters-endpoint-filters.md
+          - ProblemDetails とエラー応答: part-12-aspnetcore-webapi/problemdetails-error-responses.md
+          - rate limit / CORS / health checks: part-12-aspnetcore-webapi/rate-limit-cors-health-checks.md
+          - Minimal API と Controller の境界: part-12-aspnetcore-webapi/minimal-api-controller-boundaries.md
+      - 13 EF Core:
+          - 概要: part-13-efcore-data-access/README.md
+          - レビュー観点: part-13-efcore-data-access/checklist.md
+          - tracking / no tracking / projection: part-13-efcore-data-access/tracking-no-tracking-projection.md
+          - Include / query shape / N+1: part-13-efcore-data-access/include-query-shape-n-plus-one.md
+          - transactions と concurrency: part-13-efcore-data-access/transactions-concurrency.md
+          - migrations と schema changes: part-13-efcore-data-access/migrations-and-schema-changes.md
+          - Repository pattern と EF Core: part-13-efcore-data-access/repository-pattern-with-efcore.md
+          - raw SQL と injection: part-13-efcore-data-access/raw-sql-and-injection.md
+      - 14 並行/背景:
+          - 概要: part-14-concurrency-background-services/README.md
+          - レビュー観点: part-14-concurrency-background-services/checklist.md
+          - lock / Monitor / thread safety: part-14-concurrency-background-services/lock-monitor-thread-safety.md
+          - SemaphoreSlim と throttling: part-14-concurrency-background-services/semaphoreSlim-throttling.md
+          - concurrent collections: part-14-concurrency-background-services/concurrent-collections.md
+          - PeriodicTimer と BackgroundService: part-14-concurrency-background-services/periodicTimer-backgroundService.md
+          - producer / consumer / Channel: part-14-concurrency-background-services/producer-consumer-channel.md
+      - 15 運用/品質:
+          - 概要: part-15-operations-quality-delivery/README.md
+          - レビュー観点: part-15-operations-quality-delivery/checklist.md
+          - metrics / tracing / OpenTelemetry: part-15-operations-quality-delivery/metrics-tracing-opentelemetry.md
+          - health checks / readiness / liveness: part-15-operations-quality-delivery/health-checks-readiness-liveness.md
+          - CI / analyzers / formatters / tests: part-15-operations-quality-delivery/ci-analyzers-formatters-tests.md
+          - NuGet / versioning / library design: part-15-operations-quality-delivery/nuget-versioning-library-design.md
+          - configuration と secret operations: part-15-operations-quality-delivery/configuration-and-secret-operations.md
   - Appendix:
       - 概要: appendix/README.md
       - レビュー観点: appendix/checklist.md

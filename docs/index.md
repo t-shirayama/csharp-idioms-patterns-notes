@@ -22,4 +22,9 @@
 | Part 8 | [テストしやすい C#](part-08-testable-csharp/README.md) | [レビュー観点](part-08-testable-csharp/checklist.md) |
 | Part 9 | [スタイル、レビュー、保守性](part-09-style-review-maintainability/README.md) | [レビュー観点](part-09-style-review-maintainability/checklist.md) |
 | Part 10 | [パフォーマンスと落とし穴](part-10-performance-pitfalls/README.md) | [レビュー観点](part-10-performance-pitfalls/checklist.md) |
+| Part 11 | [C# 言語機能のステップアップ](part-11-advanced-csharp-language/README.md) | [レビュー観点](part-11-advanced-csharp-language/checklist.md) |
+| Part 12 | [ASP.NET Core / Web API 実務補足](part-12-aspnetcore-webapi/README.md) | [レビュー観点](part-12-aspnetcore-webapi/checklist.md) |
+| Part 13 | [EF Core / DB アクセス深掘り](part-13-efcore-data-access/README.md) | [レビュー観点](part-13-efcore-data-access/checklist.md) |
+| Part 14 | [並行処理・バックグラウンド処理補足](part-14-concurrency-background-services/README.md) | [レビュー観点](part-14-concurrency-background-services/checklist.md) |
+| Part 15 | [運用・品質・配布補足](part-15-operations-quality-delivery/README.md) | [レビュー観点](part-15-operations-quality-delivery/checklist.md) |
 | Appendix | [その他の実務定石](appendix/README.md) | [レビュー観点](appendix/checklist.md) |
