@@ -98,7 +98,7 @@ public decimal AverageAmount(IReadOnlyCollection<OrderLine> lines)
 ## 判断基準
 
 - 「列挙できる」以上の前提を持つなら、引数型に反映する。
-- API 境界で遅延評価を返すときは、列挙タイミングを仕様として説明できるようにする。
+- API 境界で遅延評価を返すときは、列挙タイミングを仕様として説明できる形にする。
 - 戻り値を `IEnumerable<T>` にする場合でも、内部で `ToList()` してから返すほうが安全な場面がある。
 - `IReadOnlyCollection<T>` は呼び出し側に `Count` を安く使わせたいときに有効。
 - 順序が意味を持つなら `IReadOnlyCollection<T>` ではなく `IReadOnlyList<T>` を選ぶ。

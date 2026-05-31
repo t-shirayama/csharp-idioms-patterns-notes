@@ -2,7 +2,7 @@
 
 ## 概要
 
-C# は言語、.NET は実行基盤とライブラリ群です。実務では「どの C# 構文が使えるか」と「どの .NET API が使えるか」が別の話になるため、SDK、Runtime、Target Framework Moniker (TFM) を分けて見る必要があります。
+C# は言語、.NET は実行基盤とライブラリ群です。実務では「どの C# 構文が使えるか」と「どの .NET API が使えるか」が別の話になるため、SDK、Runtime、Target Framework Moniker (TFM) を分けて見ます。
 
 - SDK はビルドやテンプレート作成に使う道具
 - Runtime はアプリケーションを実行する環境

@@ -12,7 +12,7 @@
 
 | Part | ノート | チェックリスト |
 | --- | --- | --- |
-| Part 1 | [現代 C# の基礎体力](part-01-modern-csharp-basics/README.md) | [レビュー観点](part-01-modern-csharp-basics/checklist.md) |
+| Part 1 | [現代 C# の基礎](part-01-modern-csharp-basics/README.md) | [レビュー観点](part-01-modern-csharp-basics/checklist.md) |
 | Part 2 | [基本文法の実務イディオム](part-02-basic-idioms/README.md) | [レビュー観点](part-02-basic-idioms/checklist.md) |
 | Part 3 | [C# 言語機能のステップアップ](part-03-advanced-csharp-language/README.md) | [レビュー観点](part-03-advanced-csharp-language/checklist.md) |
 | Part 4 | [コレクションと LINQ](part-04-collections-linq/README.md) | [レビュー観点](part-04-collections-linq/checklist.md) |

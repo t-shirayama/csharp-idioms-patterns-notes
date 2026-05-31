@@ -16,7 +16,7 @@
 4. Part 15 の OpenTelemetry、secret、CI、NuGet 配布の運用具体化
 5. Part 6 / 9 の層境界、transaction、outbox、ProblemDetails の横断設計
 
-## Part 1: 現代 C# の基礎体力
+## Part 1: 現代 C# の基礎
 
 - [ ] P0: `docs/part-01-modern-csharp-basics/csharp-と-dotnet-の全体像.md`
   - SDK / Runtime / TFM に加え、LTS/STS、`global.json`、CI SDK 固定、multi-targeting、nullable/analyzer を warnings as errors にする判断を追加する。

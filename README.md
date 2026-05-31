@@ -2,7 +2,7 @@
 
 実務で役立つ C# のイディオム、定石、設計パターン、落とし穴をまとめるノートです。
 
-単なる文法メモではなく、「どの書き方を選ぶべきか」「どの場面で避けるべきか」「レビューで何を見るべきか」まで含めて整理します。
+単なる文法メモではなく、書き方の選び方、避けどころ、レビュー観点まで整理します。
 
 ## 目的
 
@@ -29,7 +29,7 @@
 
 | Part | ノート | チェックリスト |
 | --- | --- | --- |
-| Part 1 | [現代 C# の基礎体力](docs/part-01-modern-csharp-basics/README.md) | [レビュー観点](docs/part-01-modern-csharp-basics/checklist.md) |
+| Part 1 | [現代 C# の基礎](docs/part-01-modern-csharp-basics/README.md) | [レビュー観点](docs/part-01-modern-csharp-basics/checklist.md) |
 | Part 2 | [基本文法の実務イディオム](docs/part-02-basic-idioms/README.md) | [レビュー観点](docs/part-02-basic-idioms/checklist.md) |
 | Part 3 | [C# 言語機能のステップアップ](docs/part-03-advanced-csharp-language/README.md) | [レビュー観点](docs/part-03-advanced-csharp-language/checklist.md) |
 | Part 4 | [コレクションと LINQ](docs/part-04-collections-linq/README.md) | [レビュー観点](docs/part-04-collections-linq/checklist.md) |

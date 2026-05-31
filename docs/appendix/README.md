@@ -58,7 +58,7 @@
 - [reflection](reflection.md): 型情報を実行時に扱う場面、避けたい濫用、代替案。
 - [source generator の入口](source-generator-の入口.md): 実行時処理をコンパイル時生成へ移すときの導入判断。
 - [unsafe / native interop の入口](unsafe-native-interop-の入口.md): 通常のC#から外れる処理を最小範囲に閉じ込める考え方。
-- [補足トピックのレビュー用チェックリスト](checklist.md): 境界処理、運用差分、失敗時の見え方を確認するためのチェックリスト。
+- [補足トピックのレビュー用チェックリスト](checklist.md): 境界処理、運用差分、失敗時の見え方を確認するチェックリスト。
 
 ---
 

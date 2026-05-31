@@ -62,7 +62,7 @@ LINQ は読みやすさのために有効ですが、hot path での多段列挙
 - [async の落とし穴](async-の落とし穴.md): 非同期処理で起きやすい blocking、キャンセル漏れ、過剰な Task 生成を扱います。
 - [例外を制御フローに使わない](例外を制御フローに使わない.md): 通常の失敗を例外で表さないための判断基準を整理します。
 - [BenchmarkDotNet の入口](benchmarkdotnet-の入口.md): C# の性能測定を始めるときの最小構成と読み方を扱います。
-- [チェックリスト](checklist.md): 性能レビューで、測定、hot path、allocation、async、例外を確認するための一覧です。
+- [チェックリスト](checklist.md): 性能レビューで、測定、hot path、allocation、async、例外を確認できる一覧です。
 
 ---
 

@@ -1,10 +1,10 @@
-# Part 1: 現代 C# の基礎体力
+# Part 1: 現代 C# の基礎
 
-この Part では、C# の文法を細かく覚える前に、実務コードを読む・書く・レビューするための土台を整理します。対象は C# 8 以降を中心に、nullable reference types、`record`、`init`、`required`、file-scoped namespace など、現代 C# で判断を間違えやすい領域です。
+この Part では、実務コードを読む・書く・レビューする土台を整理します。対象は C# 8 以降を中心に、nullable reference types、`record`、`init`、`required`、file-scoped namespace など、現代 C# で判断を間違えやすい領域です。
 
-ここでの目的は「機能名を知ること」ではなく、プロジェクトの前提、型の選び方、初期化の責任、例外とリソース管理を見たときに、設計上の意図を説明できるようにすることです。
+目的は機能名の暗記ではありません。プロジェクトの前提、型の選び方、初期化の責任、例外とリソース管理を見て、設計意図を説明できる状態を目指します。
 
-## このPartで身につくこと
+## この Part で身につくこと
 
 - C# と .NET の関係、Target Framework、SDK、実行環境の違いを説明できる。
 - 値型、参照型、nullable reference types を、null 安全性とAPI設計の観点で使い分けられる。
@@ -30,7 +30,7 @@
 - `record` はDTOやValue Objectに向きますが、ライフサイクルやIDを持つEntityには慎重に使う。
 - `required` は便利ですが、バリデーションや不変条件の代替ではない。
 - `struct` は値型にしたい理由だけで選ばず、サイズ、コピーコスト、default 値、変更可能性まで見る。
-- `using` / `IDisposable` / `IAsyncDisposable` は「使ったら閉じる」だけでなく、所有権とスコープの境界を明確にするための設計要素として読む。
+- `using` / `IDisposable` / `IAsyncDisposable` は「使ったら閉じる」だけでなく、所有権とスコープの境界を表す設計要素として読む。
 
 ## ページ別の重点
 
@@ -44,7 +44,7 @@
 
 新規プロジェクトの雛形を読むとき、既存コードの型設計をレビューするとき、DTO、Entity、設定クラス、オプション値、リソース管理を設計するときに使います。特に nullable を有効化したプロジェクトでは、`?`、`required`、コンストラクター、プロパティ初期化の組み合わせが、そのままAPIの使いやすさに影響します。
 
-また、古い C# で書かれたコードを現代化するときにも、この Part の観点が役立ちます。単に新機能へ置き換えるのではなく、null 契約、変更可能性、所有権、例外の意味を崩さないことが重要です。
+古い C# のコードを現代化するときにも、この Part の観点が役立ちます。新機能へ置き換えるだけでなく、null 契約、変更可能性、所有権、例外の意味を保ちます。
 
 ## よくある落とし穴
 
@@ -71,7 +71,7 @@
 - [property、init、required、readonly](property-init-required-readonly.md): 初期化、読み取り専用、不変条件をプロパティ設計に落とし込む方法を扱います。
 - [namespace、using、file-scoped namespace](namespace-using-file-scoped-namespace.md): 名前空間と using を、ファイル構造と読みやすさの観点で整理します。
 - [exception、using、IDisposable、リソース管理](exception-using-idisposable-リソース管理.md): 例外設計、using 文、リソース解放、所有権の境界を確認します。
-- [コードレビューチェックリスト](checklist.md): Part 1 の内容をレビュー時に確認するための短いチェックリストです。
+- [コードレビューチェックリスト](checklist.md): Part 1 の内容をレビュー時に確認できる短いチェックリストです。
 
 ---
 

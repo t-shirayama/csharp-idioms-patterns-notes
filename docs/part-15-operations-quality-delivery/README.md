@@ -1,6 +1,6 @@
 # Part 15: 運用・品質・配布補足
 
-実務の C# アプリケーションは、コードが正しく動くだけでは足りません。本番で何が起きているかを観測できること、壊れたときに早く切り分けられること、CI で品質を落とさないこと、安全に設定や secret を扱えること、ライブラリを破壊的変更なしに配布できることが重要です。
+実務の C# アプリケーションは、コードが正しく動くだけでは足りません。本番で何が起きているかを観測でき、壊れたときに早く切り分けられることが必要です。CI で品質を守り、設定や secret を安全に扱い、ライブラリを互換性を保って配布することも含めて設計します。
 
 この Part では、ログだけでは追いきれない metrics、tracing、OpenTelemetry、health checks、CI 品質ゲート、NuGet とバージョニング、secret 運用を扱います。目的は「運用基盤を全部作ること」ではなく、アプリケーションコードを書く人がレビューで見落としやすい運用品質の判断基準を持つことです。
 
@@ -67,7 +67,7 @@
 - [CI、analyzers、formatters、tests](ci-analyzers-formatters-tests.md) - 品質ゲートを開発速度と既存負債に合わせて段階導入する考え方です。
 - [NuGet、versioning、library design](nuget-versioning-library-design.md) - ライブラリ配布、互換性、SemVer、依存関係をレビューするための入口です。
 - [configuration and secret operations](configuration-and-secret-operations.md) - 設定と secret を本番運用で安全に扱うための設計観点です。
-- [レビュー checklist](checklist.md) - Part 15 の観点を PR、リリース、運用レビューで確認するための一覧です。
+- [レビュー checklist](checklist.md) - Part 15 の観点を PR、リリース、運用レビューで確認できる一覧です。
 
 ---
 
